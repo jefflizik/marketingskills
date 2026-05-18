@@ -90,15 +90,15 @@
     {
       "id": 6,
       "prompt": "I have a list of 200 prospect emails from Apollo. How do I know which ones are deliverable before I start outreach?",
-      "expected_output": "Should explain the deliverability validation step in Phase 3. Should recommend Truelist (the integration in this pack) for bulk validation. Should explain the classification output: Deliverable, Risky, Undeliverable, Unknown. Should warn that Apollo data accuracy is typically 60-80% — sending without validation will tank sender reputation (bounce rate >2% triggers ISP throttling and reputation damage). Should recommend the workflow: bulk upload to Truelist → keep Deliverable + Risky-with-caveats → drop Undeliverable → flag Unknown for manual review or skip. Should note that cold email reputation is hard to recover once damaged — validation is non-negotiable, not optional. Should mention Hunter and Snov as alternatives with built-in verification, plus dedicated tools like NeverBounce or ZeroBounce. Should reference truelist.md integration guide and the data-sources.md reference.",
+      "expected_output": "Should explain the deliverability validation step in Phase 3. Should recommend Truelist (the integration in this pack) for bulk validation. Should explain the email_state classification output: ok (deliverable), email_invalid (bounces, exclude), risky (deliverable with risk like role or disposable, include cautiously), unknown (couldn't determine, skip or re-verify), accept_all (catch-all domain, include cautiously). Should warn that Apollo data accuracy is typically 60-80% — sending without validation will tank sender reputation (bounce rate >2% triggers ISP throttling and reputation damage). Should recommend the workflow: bulk POST to /api/v1/verify or CSV upload → keep ok, include risky/accept_all cautiously, exclude email_invalid, re-verify unknown → hand off to outreach. Should note Truelist also has an official MCP server for agent-driven validation. Should note cold email reputation is hard to recover once damaged — validation is non-negotiable, not optional. Should mention Hunter and Snov as alternatives with built-in verification. Should reference truelist.md integration guide.",
       "assertions": [
         "Recommends Truelist for bulk validation",
-        "Explains Deliverable/Risky/Undeliverable/Unknown classification",
+        "Explains email_state values (ok, email_invalid, risky, unknown, accept_all)",
         "Warns Apollo accuracy is 60-80%",
         "Cites 2% bounce rate threshold for reputation damage",
-        "Recommends workflow: upload, classify, keep Deliverable, drop Undeliverable",
+        "Recommends workflow: validate, keep ok, exclude email_invalid",
+        "Mentions Truelist MCP server for agent workflows",
         "Mentions cold email reputation is hard to recover",
-        "Mentions alternative validators",
         "References truelist.md or data-sources.md"
       ],
       "files": []
